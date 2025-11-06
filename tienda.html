@@ -12,7 +12,7 @@
     <nav>
       <a href="index.html">Inicio</a>
       <a href="tienda.html">Tienda</a>
-      <a href="#">Contacto</a>
+  
     </nav>
   </header>
 
@@ -72,13 +72,17 @@
 
   function buyGame(id){
     const params = new URLSearchParams();
-    params.set('game', id);
+    params.set("game", id);
     window.location.href = 'checkout.html?' + params.toString();
   }
 
   genreEl.addEventListener('change', ()=>{
-    const genero = generoEl.value;
-    renderGames(genre=='all'?games:games.filter(g=>g.genero==genero));
+    const genero = genreEl.value;
+    if(genero === 'todos'){
+      renderGames(games);
+    }else{
+    renderGames(genre=='todos'?games:games.filter(g=>g.genero==genero));
+  }
   });
 
   renderGames(games);
@@ -133,6 +137,7 @@
         btn.textContent = "🔇 Música: OFF";
       });
     });
+
   </script>
 
 

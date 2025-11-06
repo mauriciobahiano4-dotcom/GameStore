@@ -84,9 +84,11 @@
 
     // Si venís desde la tienda con ?game=nombreJuego
     const urlParams = new URLSearchParams(window.location.search);
-    const gameName = urlParams.get('game');
-    if (gameName) {
-      document.getElementById('gameName').value = gameName;
+    function buygame(id){
+      const game = games.find(g => g.id === id);
+      const params = new URL.searchParams();
+      params.set('game',game.title);
+      window.location.href='checkout.html?'+params.toString();
     }
   </script>
 

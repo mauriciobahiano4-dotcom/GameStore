@@ -99,6 +99,10 @@ footer {
   color: #9aa6bf;
 }
 
+audio {
+  display: none;
+  volume: 0.2;
+}
 input, select {
   padding: 8px;
   margin: 5px 0;
