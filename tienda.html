@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - GameStore</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">🎮 GameStore</div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="tienda.html">Tienda</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Catálogo de Videojuegos</h2>
+    <label>Filtrar por género:</label>
+    <select id="generofiltro">
+      <option value="todos">Todos</option>
+      <option value="accion">Acción</option>
+      <option value="aventura">Aventura</option>
+      <option value="pelea">Pelea</option>
+      <option value="carreras">Carreras</option>
+      <option value="horror">Terror</option>
+      <option value="rpg">RPG</option>
+      <option value="deportes">Deportes</option>
+    </select>
+
+    <div class="grid" id="games"></div>
+  </main>
+
+  <footer>
+    © 2025 GameStore - Todos los derechos reservados
+  </footer>
+
+  <script>
+  const games = [
+    {id:1,title:'God of War: Ragnarök', genero:'accion', precio:59, img:'god of war.jpg'},
+    {id:2,title:'Halo Infinite', genero:'accion', precio:49, img:'halo infinite.jpg'},
+    {id:3,title:'Horizon Forbidden West', genero:'aventura', precio:59, img:'horizon forbidden west.jpg'},
+    {id:4,title:'EA FC 26', genero:'deportes', precio:39, img:'eacf26.jpg'},
+    {id:5,title:'Street Fighter 6', genero:'pelea', precio:59, img:'street fighter6.jpg'},
+    {id:6,title:'The Witcher 3', genero:'rpg', precio:29, img:'the witcher3.jpg'}
+  ];
+
+  const gamesEl = document.getElementById('games');
+  const genreEl = document.getElementById('generofiltro');
+
+  function renderGames(list){
+    gamesEl.innerHTML='';
+    list.forEach(g=>{
+      const card = document.createElement('div');
+      card.className='card';
+      card.innerHTML=`
+        <img src="${g.img}" alt="${g.title}">
+        <div class="info">
+          <h3>${g.title}</h3>
+          <div>Género: ${g.genero}</div>
+          <div>Precio: $${g.precio}</div>
+          <div class="precio-row">
+            <button onclick="buyGame(${g.id})">Comprar</button>
+          </div>
+        </div>
+      `;
+      gamesEl.appendChild(card);
+    });
+  }
+
+  function buyGame(id){
+    const params = new URLSearchParams();
+    params.set('game', id);
+    window.location.href = 'checkout.html?' + params.toString();
+  }
+
+  genreEl.addEventListener('change', ()=>{
+    const genero = generoEl.value;
+    renderGames(genre=='all'?games:games.filter(g=>g.genero==genero));
+  });
+
+  renderGames(games);
+  </script>
+  <!-- 🎶 Música de fondo -->
+  <audio id="bg-music" loop>
+    <source src="musica de tienda.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <button id="music-btn" style="
+    background:#00bcd4;
+    border:none;
+    color:white;
+    padding:8px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    position:fixed;
+    top:15px;
+    right:15px;
+    z-index:1000;
+    font-weight:bold;
+  ">
+  🔇 Música: OFF
+  </button>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("music-btn");
+    let playing = false;
+
+    btn.addEventListener("click", () => {
+      if (!playing) {
+        music.play();
+        btn.textContent = "🔈 Música: ON";
+        playing = true;
+      } else {
+        music.pause();
+        btn.textContent = "🔇 Música: OFF";
+        playing = false;
+      }
+    });
+
+    // Intenta reproducir automáticamente si el navegador lo permite
+    window.addEventListener('load', () => {
+      music.volume = 0.3; // volumen más suave
+      music.play().then(() => {
+        btn.textContent = "🔈 Música: ON";
+        playing = true;
+      }).catch(() => {
+        // algunos navegadores bloquean autoplay
+        btn.textContent = "🔇 Música: OFF";
+      });
+    });
+  </script>
+
+
+</body>
+</html>
